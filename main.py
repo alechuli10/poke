@@ -32,7 +32,8 @@ This Python method contains the application of the Game.
 
 # Source packages.
 
-
+from pokemon import Pokemon
+from weapon_type import WeaponType
 
 def get_data_from_user(name_file):
     """Function to obtain data from each user.
@@ -57,7 +58,19 @@ def get_data_from_user(name_file):
       >>> list_pokemons = get_data_from_user("file.csv")
     """
 
-
+    file= open(name_file, "r")
+    result= []
+    for line in file.readlines():
+      data= line.split(",")
+      id= int(data[0])
+      name= data[1]
+      weapon= WeaponType[data[2].upper()]
+      health= int(data[3])
+      attack= int(data[4])
+      defense= int(data[5])
+      pokemon= Pokemon(id,name,weapon,health,attack,defense)
+      result.append(pokemon)
+    return result
 
 def get_pokemon_in_a_list_of_pokemons(coach_to_ask, list_of_pokemons):
     """Function to know the list of Pokemons that are associated to the Coach.
@@ -85,7 +98,17 @@ def get_pokemon_in_a_list_of_pokemons(coach_to_ask, list_of_pokemons):
        >>> get_pokemon_in_a_list_of_pokemons(1, list_of_pokemons)
     """
 
+    result= []
+    for pokemon in list_of_pokemons:
+      if pokemon.is_alive():
+        result.append(pokemon)
 
+    print("Coach ",coach_to_ask, ":")
+    print("Select one pokemon of the following ones")
+    for pokemon in result:
+      print(pokemon)
+    return result
+  
 
 def coach_is_undefeated(list_of_pokemons):
     """Function to know if the Coach is still undefeated.
@@ -110,7 +133,11 @@ def coach_is_undefeated(list_of_pokemons):
     -------
        >>> coach_is_undefeated(list_of_pokemons)
     """
-
+    is_undefeated = False
+    for pokemon in list_of_pokemons:
+      if pokemon.is_alive():
+        is_undefeated= True
+    return is_undefeated
 
 def main():
     """Function main of the module.
@@ -138,24 +165,60 @@ def main():
     print("Let's start to set the configuration of each game user. \n")
 
     # Get configuration for Game User 1.
-
+  
+    list_of_pokemon1= get_data_from_user("coach_1_pokemons.csv")
 
     # Get configuration for Game User 2.
+    list_of_pokemon2= get_data_from_user("coach_2_pokemons.csv")
 
+    for pokemon in list_of_pokemon1:
+      print(pokemon)
+    for pokemon in list_of_pokemon2:
+      print(pokemon)
 
     print("------------------------------------------------------------------")
     print("The Game starts...")
     print("------------------------------------------------------------------")
 
     # Get a copy of the list of pokemons:
-
+    copy1= list_of_pokemon1.copy()
+    copy2= list_of_pokemon2.copy()
 
     # Choose first pokemons
- 
+    copy1= get_pokemon_in_a_list_of_pokemons(1,copy1)
+    id= int(input(""))
+    pokemon1= None
+    for pokemon in copy1:
+      if pokemon.get_id()==id:
+        pokemon1= pokemon
+
+    copy2= get_pokemon_in_a_list_of_pokemons(2,copy2)
+    id= int(input(""))
+    pokemon2= None
+    for pokemon in copy2:
+      if pokemon.get_id()==id:
+        pokemon2= pokemon
 
     # Main loop.
 
-
+    while coach_is_undefeated(copy1) and coach_is_undefeated(copy2):
+      if not pokemon1.is_alive():
+        copy1= get_pokemon_in_a_list_of_pokemons(1,copy1)
+        id= int(input(""))
+        pokemon1= None
+        for pokemon in copy1:
+          if pokemon.get_id()==id:
+            pokemon1= pokemon
+      if not pokemon2.is_alive():
+        copy2= get_pokemon_in_a_list_of_pokemons(2,copy2)
+        id= int(input(""))
+        pokemon2= None
+        for pokemon in copy2:
+          if pokemon.get_id()==id:
+            pokemon2= pokemon
+      pokemon1.fight_attack(pokemon2)
+      pokemon2.fight_attack(pokemon1)
+      
 
     print("------------------------------------------------------------------")
     print("The Game has end...")
@@ -166,10 +229,12 @@ def main():
     print("Statistics")
     print("------------------------------------------------------------------")
     print("Game User 1:")
-
+    for pokemon in copy1:
+      print(pokemon)
 
     print("Game User 2:")
-
+    for pokemon in copy2:
+      print(pokemon)
 
 
 # Checking whether this module is executed just itself alone.

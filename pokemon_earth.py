@@ -33,9 +33,10 @@ this Python class.
 
 # Source packages.
 
+from pokemon import Pokemon
+from weapon_type import WeaponType
 
-
-class PokemonEarth():
+class PokemonEarth(Pokemon):
     """Python class to implement a basic version of a Pokemon of the game.
 
     This Python class implements the basic version of a Pokemon of the game.
@@ -68,7 +69,8 @@ class PokemonEarth():
       >>> from weapon_type import WeaponType
       >>> obj_Pokemon = PokemonEarth(1, "Diglett", WeaponType.PUNCH, 100, 7, 10)
     """
-
+    def __init__ (self, id, pokemon_name, weapon_type, health_points, attack_rating, defense_rating):
+      return Pokemon.__init__(self,id, pokemon_name, weapon_type, health_points, attack_rating, defense_rating, range(1,11), range(11,21))
 
 def main():
     """Function main of the module.

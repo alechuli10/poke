@@ -70,7 +70,7 @@ class Pokemon():
   """
   lista_ids= []
 
-  def __init__ (self, id, pokemon_name, weapon_type, health_points, attack_rating, defense_rating):
+  def __init__ (self, id, pokemon_name, weapon_type, health_points, attack_rating, defense_rating, attack_range= range(1,11), defense_range= range(1,11)):
     if not id in Pokemon.lista_ids:
       self.id= id 
       if type (pokemon_name) is str:
@@ -89,17 +89,17 @@ class Pokemon():
       else:
         raise ValueError("Health points is not a integer")
       if type (attack_rating) is int:
-        if attack_rating>= 1 and attack_rating<=10:
+        if attack_rating in attack_range:
           self.attack_rating= attack_rating
         else:
-          raise ValueError("Attack rating is not in range (1..10)")
+          raise ValueError("Attack rating is not in range")
       else:
         raise ValueError("Attack rating is not a integer")
       if type (defense_rating) is int:
-        if defense_rating>= 1 and defense_rating<=10:
+        if defense_rating in defense_range:
           self.defense_rating= defense_rating
         else:
-          raise ValueError("Defense rating is not in range (1..10)")
+          raise ValueError("Defense rating is not in range")
       else:
         raise ValueError("Defense rating is not a integer")
 
