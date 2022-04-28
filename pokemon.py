@@ -34,6 +34,20 @@ this Python class.
 # Source packages.
 
 from weapon_type import WeaponType
+# Cargar librerías necesarias
+import numpy as np # algebra lineal
+import pandas as pd # procesado de daros, ficheros CSV
+import math
+
+import matplotlib.pyplot as plt
+plt.style.use("seaborn-whitegrid")
+
+import seaborn as sns
+
+from collections import Counter
+
+import warnings
+warnings.filterwarnings("ignore")
 
 class Pokemon():
   """Python class to implement a basic version of a Pokemon of the game.
